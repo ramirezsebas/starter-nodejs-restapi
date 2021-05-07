@@ -2,11 +2,13 @@ import express from "express";
 import http from "http";
 import https from "https";
 import cors from "cors";
+import productoRouter from "../routes/producto.js";
 
 export default class Server {
   constructor() {
     this.portHttp = process.env.PORT_DESAROLLO;
     this.portHttps = process.env.PORT_PROD;
+    this.routeProducto = "/api/producto";
     this.app = express();
     this.middleware();
     this.routes();
@@ -20,8 +22,12 @@ export default class Server {
 
   routes() {
     this.app.get("/prueba", (req, res, next) => {
-      return res.status(200).json("hola");
+      return res.status(200).json({
+        mensaje:"Funciona Correctamente"
+      });
     });
+
+    this.app.use(this.routeProducto,productoRouter);
   }
 
   createHttpServer() {
