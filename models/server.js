@@ -3,12 +3,14 @@ import http from "http";
 import https from "https";
 import cors from "cors";
 import productoRouter from "../routes/producto.js";
+import usuarioRouter from "../routes/usuario.js";
 
 export default class Server {
   constructor() {
     this.portHttp = process.env.PORT_DESAROLLO;
     this.portHttps = process.env.PORT_PROD;
     this.routeProducto = "/api/producto";
+    this.routeUsuario = "/api/usuario";
     this.app = express();
     this.middleware();
     this.routes();
@@ -26,7 +28,7 @@ export default class Server {
         mensaje:"Funciona Correctamente"
       });
     });
-
+    this.app.use(this.routeUsuario,usuarioRouter);
     this.app.use(this.routeProducto,productoRouter);
   }
 
