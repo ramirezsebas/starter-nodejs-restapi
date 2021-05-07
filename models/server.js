@@ -33,8 +33,8 @@ export default class Server {
 
   createHttpsServer() {
     //Agregar Clave de Seguridad para https
-    let privateKey = fs.readFileSync("ruta_clave", "utf8");
-    let certificate = fs.readFileSync("ruta_certificado", "utf8");
+    let privateKey = fs.readFileSync(process.env.RUTA_CLAVE, "utf8");
+    let certificate = fs.readFileSync(process.env.RUTA_CREEDENCIAL, "utf8");
 
     let creedenciales = { key: privateKey, cert: certificate };
     let httpsServer = https.createServer(creedenciales);
