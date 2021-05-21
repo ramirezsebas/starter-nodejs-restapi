@@ -1,9 +1,3 @@
-import dotenv from "dotenv";
+import server from "./models/server.js"
 
-import Server from "./models/server.js";
-
-dotenv.config();
-
-const myServer = new Server();
-
-myServer.createHttpServer();
+server.createHttpServer();

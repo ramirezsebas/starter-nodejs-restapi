@@ -2,15 +2,21 @@ import express from "express";
 import http from "http";
 import https from "https";
 import cors from "cors";
+
 import productoRouter from "../routes/producto.js";
 import usuarioRouter from "../routes/usuario.js";
+import config from "./config/index.js";
 
-export default class Server {
+class Server {
   constructor() {
-    this.portHttp = process.env.PORT_DESAROLLO;
-    this.portHttps = process.env.PORT_PROD;
-    this.routeProducto = "/api/producto";
-    this.routeUsuario = "/api/usuario";
+    this.portHttp = config.port_local;
+    this.portHttps = config.port_remoto;
+    
+    this.appRoutes = {
+      routeProducto: "/api/v1/productos",
+      routeUsuario: "/api/v1/usuarios",
+    };
+
     this.app = express();
     this.middleware();
     this.routes();
@@ -25,11 +31,11 @@ export default class Server {
   routes() {
     this.app.get("/prueba", (req, res, next) => {
       return res.status(200).json({
-        mensaje:"Funciona Correctamente"
+        mensaje: "Funciona Correctamente",
       });
     });
-    this.app.use(this.routeUsuario,usuarioRouter);
-    this.app.use(this.routeProducto,productoRouter);
+    this.app.use(this.routeUsuario, usuarioRouter);
+    this.app.use(this.routeProducto, productoRouter);
   }
 
   createHttpServer() {
@@ -51,3 +57,9 @@ export default class Server {
     });
   }
 }
+
+const server = new Server();
+
+Object.freeze(server);
+
+export default server;
